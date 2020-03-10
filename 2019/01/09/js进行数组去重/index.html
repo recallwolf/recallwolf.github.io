@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript,转载," />
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="recallwolf" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="实现数组去重的几种方式">
+<meta name="keywords" content="JavaScript,转载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS进行数组去重">
+<meta property="og:url" content="http://rwnexus.site/2019/01/09/js进行数组去重/index.html">
+<meta property="og:site_name" content="recallwolf">
+<meta property="og:description" content="实现数组去重的几种方式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://rwnexus.site/blog/2019/01/09/js进行数组去重/unique.png">
+<meta property="og:updated_time" content="2019-01-10T13:19:57.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS进行数组去重">
+<meta name="twitter:description" content="实现数组去重的几种方式">
+<meta name="twitter:image" content="http://rwnexus.site/blog/2019/01/09/js进行数组去重/unique.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://rwnexus.site/2019/01/09/js进行数组去重/"/>
+
+
+
+
+
+  <title>JS进行数组去重 | recallwolf</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">recallwolf</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://rwnexus.site/blog/2019/01/09/js进行数组去重/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RecallWolf">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/26666985?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="recallwolf">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS进行数组去重</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T20:55:48+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  实现数组去重的几种方式
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>注：本文<a href="https://zhuanlan.zhihu.com/p/24753549" target="_blank" rel="noopener">转载</a>，  作者：TooBug</p>
+<h2 id="判断相等"><a href="#判断相等" class="headerlink" title="判断相等"></a>判断相等</h2><h3 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h3><p>初看NaN时，很容易把它当成和null、undefined一样的独立数据类型。但其实，它是数字类型。</p>
+<pre><code>// number
+console.log(typeof NaN);
+</code></pre><p>根据规范，比较运算中只要有一个值为NaN，则比较结果为false，所以会有下面这些看起来略蛋疼的结论：</p>
+<pre><code>// 全都是false
+0 &lt; NaN;
+0 &gt; NaN;
+0 == NaN;
+0 === NaN;
+</code></pre><p>以最后一个表达式<code>0 === NaN</code>为例，在规范中有明确规定（<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-strict-equality-comparison" target="_blank" rel="noopener">http://www.ecma-international.org/ecma-262/6.0/#sec-strict-equality-comparison</a>）：</p>
+<blockquote>
+<ol>
+<li>If Type(x) is Number, then<br>a. If x is NaN, return false.<br>b. If y is NaN, return false.<br>c. If x is the same Number value as y, return true.<br>d. If x is +0 and y is −0, return true.<br>e. If x is −0 and y is +0, return true.<br>f. Return false.  </li>
+</ol>
+</blockquote>
+<p>这意味着任何涉及到NaN的情况都不能简单地使用比较运算来判定是否相等。比较科学的方法只能是使用<code>isNaN()</code>：</p>
+<pre><code>var a = NaN;
+var b = NaN;
+
+// true
+console.log(isNaN(a) &amp;&amp; isNaN(b));
+</code></pre><h3 id="原始值和包装对象"><a href="#原始值和包装对象" class="headerlink" title="原始值和包装对象"></a>原始值和包装对象</h3><p>如果你研究过<code>&#39;a&#39;.trim()</code>这样的代码的话，不知道是否产生过这样的疑问：’a’明明是一个原始值（字符串），它为什么可以直接调用.trim()方法呢？当然，很可能你已经知道答案：因为JS在执行这样的代码的时候会对原始值做一次包装，让’a’变成一个字符串对象，然后执行这个对象的方法，执行完之后再把这个包装对象脱掉。可以用下面的代码来理解：</p>
+<pre><code>// &apos;a&apos;.trim();
+var tmp = new String(&apos;a&apos;);
+tmp.trim();
+</code></pre><p>这段代码只是辅助我们理解的。但包装对象这个概念在JS中却是真实存在的。</p>
+<pre><code>var a = new String(&apos;a&apos;);
+var b = &apos;b&apos;;
+</code></pre><p>a即是一个包装对象，它和b一样，代表一个字符串。它们都可以使用字符串的各种方法（比如<code>trim()</code>），也可以参与字符串运算（+号连接等）。</p>
+<p>但他们有一个关键的区别：类型不同！</p>
+<pre><code>typeof a; // object
+typeof b; // string
+</code></pre><p>在做字符串比较的时候，类型的不同会导致结果有一些出乎意料：</p>
+<pre><code>var a1 = &apos;a&apos;;
+var a2 = new String(&apos;a&apos;);
+var a3 = new String(&apos;a&apos;);
+a1 == a2; // true
+a1 == a3; // true
+a2 == a3; // false
+a1 === a2; // false
+a1 === a3; // false
+a2 === a3; // false
+</code></pre><p>同样是表示字符串a的变量，在使用严格比较时竟然不是相等的，在直觉上这是一件比较难接受的事情，在各种开发场景下，也非常容易忽略这些细节。</p>
+<h3 id="对象和对象"><a href="#对象和对象" class="headerlink" title="对象和对象"></a>对象和对象</h3><p>在涉及比较的时候，还会碰到对象。具体而言，大致可以分为三种情况：纯对象、实例对象、其它类型的对象。</p>
+<h4 id="纯对象"><a href="#纯对象" class="headerlink" title="纯对象"></a>纯对象</h4><p>纯对象（plain object）具体指什么并不是非常明确，为减少不必要的争议，下文中使用纯对象指代由字面量生成的、成员中不含函数和日期、正则表达式等类型的对象。<br>如果直接拿两个对象进行比较，不管是==还是===，毫无疑问都是不相等的。但是在实际使用时，这样的规则是否一定满足我们的需求？举个例子，我们的应用中有两个配置项：</p>
+<pre><code>// 原来有两个属性
+// var prop1 = 1;
+// var prop2 = 2;
+// 重构代码时两个属性被放到同一个对象中
+var config = {
+    prop1: 1,
+    prop2: 2
+};
+</code></pre><p>假设在某些场景下，我们需要比较两次运行的配置项是否相同。在重构前，我们分别比较两次运行的<code>prop1</code>和<code>prop2</code>即可。而在重构后，我们可能需要比较<code>config</code>对象所代表的配置项是否一致。在这样的场景下，直接用<code>==</code>或者<code>===</code>来比较对象，得到的并不是我们期望的结果。</p>
+<p>在这样的场景下，我们可能需要自定义一些方法来处理对象的比较。常见的可能是通过<code>JSON.stringify()</code>对对象进行序列化之后再比较字符串，当然这个过程并非完全可靠，只是一个思路。</p>
+<p>如果你觉得这个场景是无中生有的话，可以再回想一下断言库，同样是基于对象成员，判断结果是否和预期相符。<br>实例对象</p>
+<p>实例对象主要指通过构造函数（类）生成的对象。这样的对象和纯对象一样，直接比较都是不等的，但也会碰到需要判断是否是同一对象的情况。一般而言，因为这种对象有比较复杂的内部结构（甚至有一部分数据在原型上），无法直接从外部比较是否相等。比较靠谱的判断方法是由构造函数（类）来提供静态方法或者实例方法来判断是否相等。</p>
+<h4 id="其它对象"><a href="#其它对象" class="headerlink" title="其它对象"></a>其它对象</h4><p>其它对象主要指数组、日期、正则表达式等这类在Object基础上派生出来的对象。这类对象各有各的特殊性，一般需要根据场景来构造判断方法，决定两个对象是否相等。</p>
+<p>比如，日期对象，可能需要通过<code>Date.prototype.getTime()</code>方法获取时间戳来判断是否表示同一时刻。正则表达式可能需要通过<code>toString()</code>方法获取到原始字面量来判断是否是相同的正则表达式。</p>
+<h4 id="和"><a href="#和" class="headerlink" title="==和==="></a>==和===</h4><p>在一些文章中，看到某一些数组去重的方法，在判断元素是否相等时，使用的是==比较运算符。众所周知，这个运算符在比较前会先查看元素类型，当类型不一致时会做隐式类型转换。这其实是一种非常不严谨的做法。因为无法区分在做隐匿类型转换后值一样的元素，例如0、’’、false、null、undefined等。</p>
+<p>同时，还有可能出现一些只能黑人问号的结果，例如：</p>
+<pre><code>[] == ![]; //true
+</code></pre><h2 id="去重实现"><a href="#去重实现" class="headerlink" title="去重实现"></a>去重实现</h2><h3 id="双重遍历"><a href="#双重遍历" class="headerlink" title="双重遍历"></a>双重遍历</h3><pre><code>function unique(arr) {
+  var ret = [];
+  var len = arr.length;
+  var isRepeat;
+  for(var i=0; i&lt;len; i++) {
+    isRepeat = false;
+    for(var j=i+1; j&lt;len; j++) {
+      if(arr[i] === arr[j]){
+        isRepeat = true;
+        break;
+      }
+    }
+    if(!isRepeat){
+      ret.push(arr[i]);
+    }
+  }
+  return ret;
+}
+</code></pre><p>或者</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  var len = arr.length;
+  for(var i=0; i&lt;len; i++){
+    for(var j=i+1; j&lt;len; j++){
+      if(arr[i] === arr[j]){
+        j = ++i;
+      }
+    }
+    ret.push(arr[i]);
+  }
+  return ret;
+}
+</code></pre><p>大致的思路是第a元素与后面n-a个元素进行比较<br>第一种方式 如果不相等，退出二层循环推入数组直到最后没有相等的元素<br>第二种方式 如果相等则在跳过第一层一次循环（相当于第一层循环直接进下一次），如果第二层循环都不相等则推入数组</p>
+<p>注意的是由于<code>NaN === NaN</code>返回的是false，所以不能使用该表达是判断NaN，否则两种方式仍会有NaN重复<br>可以使用<code>isNaN()</code>添加一层判断</p>
+<h3 id="Array-prototype-indexOf"><a href="#Array-prototype-indexOf" class="headerlink" title="Array.prototype.indexOf()"></a>Array.prototype.indexOf()</h3><p>  <code>Array.prototype.filter</code> 为数组中的每个元素调用一次 <code>callback</code> 函数，并利用所有使得 <code>callback</code> 返回 <code>true</code> 或 等价于 <code>true</code> 的值 的元素创建一个新数组</p>
+<p>  <code>Array.prototype.indexOf</code> 使用<code>strict equality</code>(无论是 ===, 还是 <code>triple-equals</code>操作符都基于同样的方法)进行判断 <code>searchElement</code>与数组中包含的元素之间的关系。</p>
+<pre><code>function unique(arr) {
+  return arr.filter(function(item, index){
+    // indexOf返回第一个索引值，
+    // 如果当前索引不是第一个索引，说明是重复值
+    return arr.indexOf(item) === index;
+  });
+}
+</code></pre><p>或者</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  arr.forEach(function(item){
+    if(ret.indexOf(item) === -1){
+      ret.push(item);
+    }
+  });
+  return ret;
+}
+</code></pre><p>第一种是通过判断索引是否是第一个索引来判断重复与否 通过<code>filter</code>函数过滤掉不等于第一个索引的数值</p>
+<p>第二种是通过遍历arr数组的值找出ret数组是否存在相同的值，再判断是否推入ret数组</p>
+<p>通过[规范]（<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.indexof" target="_blank" rel="noopener">http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.indexof</a>），indexOf()使用的是严格比较，也就是===。所以第一种方式NaN都不存在，第二种方式仍存在。</p>
+<blockquote>
+<p>再次强调：按照前文所述，===不能处理NaN的相等性判断。</p>
+</blockquote>
+<h3 id="Array-prototype-includes"><a href="#Array-prototype-includes" class="headerlink" title="Array.prototype.includes()"></a>Array.prototype.includes()</h3><p><code>Array.prototype.includes()</code>方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  arr.forEach(function(item){
+      if(!ret.includes(item)){
+          ret.push(item);
+      }
+  });
+  return ret;
+}
+</code></pre><h3 id="使用对象key来去重"><a href="#使用对象key来去重" class="headerlink" title="使用对象key来去重"></a>使用对象key来去重</h3><p>由于对象的key不可重复性</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  var len = arr.length;
+  var tmp = {};
+  for(var i=0; i&lt;len; i++){
+    if(!tmp[arr[i]]){
+        tmp[arr[i]] = 1;
+        ret.push(arr[i]);
+    }
+  }
+  return ret;
+}
+</code></pre><p>但由于对象key只能为字符串，因此这种去重方法有许多局限性：</p>
+<ol>
+<li><p>无法区分隐式类型转换成字符串后一样的值，比如1和’1’</p>
+</li>
+<li><p>无法处理复杂数据类型，比如对象（因为对象作为key会变成[object Object]）</p>
+</li>
+<li><p>特殊数据，比如<code>__proto__</code>会挂掉，因为tmp对象的<code>__proto__</code>属性无法被重写</p>
+</li>
+</ol>
+<p>对于第一点和第三点，有人提出可以为对象的key增加一个类型，或者将类型放到对象的value中来解决：</p>
+<pre><code>function unique(arr) {
+    var ret = [];
+    var len = arr.length;
+    var tmp = {};
+    var tmpKey;
+    for(var i=0; i&lt;len; i++){
+        tmpKey = typeof arr[i] + arr[i];
+        if(!tmp[tmpKey]){
+            tmp[tmpKey] = 1;
+            ret.push(arr[i]);
+        }
+    }
+    return ret;
+}
+</code></pre><p>而第二个问题，如果像上文所说，在允许对对象进行自定义的比较规则，也可以将对象序列化之后作为key来使用。这里为简单起见，使用JSON.stringify()进行序列化。</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  var len = arr.length;
+  var tmp = {};
+  var tmpKey;
+  for(var i=0; i&lt;len; i++){
+      tmpKey = typeof arr[i] + JSON.stringify(arr[i]);
+      if(!tmp[tmpKey]){
+          tmp[tmpKey] = 1;
+          ret.push(arr[i]);
+      }
+  }
+  return ret;
+}
+</code></pre><p>但是这样会导致正则表达式消失序列化之后为{}</p>
+<h3 id="Map-Key"><a href="#Map-Key" class="headerlink" title="Map Key"></a>Map Key</h3><p>可以看到，使用对象key来处理数组去重的问题，其实是一件比较麻烦的事情，处理不好很容易导致结果不正确。而这些问题的根本原因就是因为key在使用时有限制。</p>
+<p>那么，能不能有一种key使用没有限制的对象呢？答案是——真的有！那就是ES2015中的Map。</p>
+<blockquote>
+<p>Map是一种新的数据类型，可以把它想象成key类型没有限制的对象。此外，它的存取使用单独的get()、set()接口。</p>
+</blockquote>
+<pre><code>var tmp = new Map();
+tmp.set(1, 1);
+tmp.get(1); // 1
+tmp.set(&apos;2&apos;, 2);
+tmp.get(&apos;2&apos;); // 2
+tmp.set(true, 3);
+tmp.get(true); // 3
+tmp.set(undefined, 4);
+tmp.get(undefined); // 4
+tmp.set(NaN, 5);
+tmp.get(NaN); // 5
+var arr = [], obj = {};
+tmp.set(arr, 6);
+tmp.get(arr); // 6
+tmp.set(obj, 7);
+tmp.get(obj); // 7
+</code></pre><p>由于Map使用单独的接口来存取数据，所以不用担心key会和内置属性重名（如上文提到的<code>__proto__</code>）。使用Map改写一下我们的去重方法：</p>
+<pre><code>function unique(arr) {
+  var ret = [];
+  var len = arr.length;
+  var tmp = new Map();
+  for(var i=0; i&lt;len; i++){
+    if(!tmp.get(arr[i])){
+      tmp.set(arr[i], 1);
+      ret.push(arr[i]);
+    }
+  }
+  return ret;
+}
+</code></pre><h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>既然都用到了ES2015，数组这件事情不能再简单一点么？当然可以。</p>
+<p>除了Map以外，ES2015还引入了一种叫作Set的数据类型。顾名思义，Set就是集合的意思，它不允许重复元素出现，这一点和数学中对集合的定义还是比较像的。</p>
+<pre><code>var s = new Set();
+s.add(1);
+s.add(&apos;1&apos;);
+s.add(null);
+s.add(undefined);
+s.add(NaN);
+s.add(true);
+s.add([]);
+s.add({});
+</code></pre><p>如果你重复添加同一个元素的话，Set中只会存在一个。包括NaN也是这样。于是我们想到，这么好的特性，要是能和数组互相转换，不就可以去重了吗？</p>
+<pre><code>function unique(arr){
+    var set = new Set(arr);
+    return Array.from(set);
+}
+</code></pre><p>我们讨论了这么久的事情，居然两行代码搞定了，简直不可思议。</p>
+<p>然而，不要只顾着高兴了。有一句话是这么说的“不要因为走得太远而忘了为什么出发”。我们为什么要为数组去重呢？因为我们想得到不重复的元素列表。而既然已经有Set了，我们为什么还要舍近求远，使用数组呢？是不是在需要去重的情况下，直接使用Set就解决问题了？这个问题值得思考。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><pre><code>var arr = [1,1,&apos;1&apos;,&apos;1&apos;,0,0,&apos;0&apos;,&apos;0&apos;,undefined,undefined,null,null,NaN,NaN,{},{},[],[],/a/,/a/]
+console.log(unique(arr));
+</code></pre><blockquote>
+<p>测试中没有定义对象的比较方法，因此默认情况下，对象不去重是正确的结果，去重是不正确的结果。</p>
+</blockquote>
+<img src="/blog/2019/01/09/js进行数组去重/unique.png">
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/blog/tags/转载/" rel="tag"># 转载</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/12/11/Class的继承实现/" rel="next" title="Class的继承实现">
+                <i class="fa fa-chevron-left"></i> Class的继承实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/01/13/发布-订阅模式与观察者模式/" rel="prev" title="发布/订阅模式与观察者模式">
+                发布/订阅模式与观察者模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/26666985?s=460&v=4"
+                alt="RecallWolf" />
+            
+              <p class="site-author-name" itemprop="name">RecallWolf</p>
+              <p class="site-description motion-element" itemprop="description">爱我所爱，行我所行，听从我心，无问西东。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/recallwolf" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/1634414781/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/you-ya-de-feng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断相等"><span class="nav-number">1.</span> <span class="nav-text">判断相等</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NaN"><span class="nav-number">1.1.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原始值和包装对象"><span class="nav-number">1.2.</span> <span class="nav-text">原始值和包装对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象和对象"><span class="nav-number">1.3.</span> <span class="nav-text">对象和对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#纯对象"><span class="nav-number">1.3.1.</span> <span class="nav-text">纯对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它对象"><span class="nav-number">1.3.2.</span> <span class="nav-text">其它对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#和"><span class="nav-number">1.3.3.</span> <span class="nav-text">==和===</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去重实现"><span class="nav-number">2.</span> <span class="nav-text">去重实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双重遍历"><span class="nav-number">2.1.</span> <span class="nav-text">双重遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-prototype-indexOf"><span class="nav-number">2.2.</span> <span class="nav-text">Array.prototype.indexOf()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-prototype-includes"><span class="nav-number">2.3.</span> <span class="nav-text">Array.prototype.includes()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用对象key来去重"><span class="nav-number">2.4.</span> <span class="nav-text">使用对象key来去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map-Key"><span class="nav-number">2.5.</span> <span class="nav-text">Map Key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">2.6.</span> <span class="nav-text">Set</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RecallWolf</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
