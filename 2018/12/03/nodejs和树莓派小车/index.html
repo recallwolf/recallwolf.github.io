@@ -89,16 +89,16 @@
 <meta property="og:site_name" content="recallwolf">
 <meta property="og:description" content="nodejs驱动树莓派">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/sketch.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/616b30bdgy1g0ggmf6bzej21f01v6awl.jpg">
 <meta property="og:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/index.png">
 <meta property="og:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/pi0.jpg">
 <meta property="og:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/terminal.png">
-<meta property="og:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/car.jpg">
-<meta property="og:updated_time" content="2019-01-30T21:44:10.000Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/616b30bdgy1g0gghrppa2j238w2eo4qt.jpg">
+<meta property="og:updated_time" content="2020-03-30T15:40:31.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nodejs和树莓派小车">
 <meta name="twitter:description" content="nodejs驱动树莓派">
-<meta name="twitter:image" content="https://recallwolf.github.io/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/sketch.jpg">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/616b30bdgy1g0ggmf6bzej21f01v6awl.jpg">
 
 
 
@@ -357,7 +357,7 @@
 <blockquote>
 <p> 1.树莓派3b+<br>  2.l298n电机驱动模块<br>  3.3.3v直流电机<br>  4.dht11温湿度传感器<br>  5.sg90舵机</p>
 </blockquote>
-<h4 id="基本接线图"><a href="#基本接线图" class="headerlink" title="基本接线图"></a>基本接线图</h4><img src="/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/sketch.jpg"> 
+<h4 id="基本接线图"><a href="#基本接线图" class="headerlink" title="基本接线图"></a>基本接线图</h4><p><img src="http://ww1.sinaimg.cn/large/616b30bdgy1g0ggmf6bzej21f01v6awl.jpg" alt="sketch.jpg"> </p>
 <h4 id="小车代码"><a href="#小车代码" class="headerlink" title="小车代码"></a>小车代码</h4><p>一开始采用的是rpio库但是pwm的问题一直没解决<br>提了个issue <a href="https://github.com/jperkin/node-rpio/issues/80" target="_blank" rel="noopener">https://github.com/jperkin/node-rpio/issues/80</a></p>
 <p>之后采用了johnny-five库， raspi-io库。<br>由于JavaScript控制微秒级不精准所以采用了第三方库node-dht-sensor调用c++来控制传感器，之后通过websocket传递温湿度</p>
 <p>摄像头部分 用ffmpeg流传输到websocket转发到http上</p>
@@ -614,7 +614,8 @@ setInterval(() =&gt; {
   });
 }, 4500);
 </code></pre><p>终端如图：<br><img src="/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/terminal.png">  </p>
-<img src="/recallwolf.github.io/2018/12/03/nodejs和树莓派小车/car.jpg"> 
+<p><img src="http://ww1.sinaimg.cn/large/616b30bdgy1g0gghrppa2j238w2eo4qt.jpg" alt="car"></p>
+
       
     </div>
     
@@ -735,7 +736,7 @@ setInterval(() =&gt; {
               
                 <a href="/recallwolf.github.io/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -757,7 +758,7 @@ setInterval(() =&gt; {
               
               <div class="site-state-item site-state-tags">
                 <a href="/recallwolf.github.io/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
