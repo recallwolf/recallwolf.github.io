@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="RaspberryPi,Nodejs," />
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="recallwolf" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="nodejs驱动树莓派">
+<meta name="keywords" content="RaspberryPi,Nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nodejs和树莓派小车">
+<meta property="og:url" content="http://rwnexus.site/2018/12/03/nodejs和树莓派小车/index.html">
+<meta property="og:site_name" content="recallwolf">
+<meta property="og:description" content="nodejs驱动树莓派">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/sketch.jpg">
+<meta property="og:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/index.png">
+<meta property="og:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/pi0.jpg">
+<meta property="og:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/terminal.png">
+<meta property="og:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/car.jpg">
+<meta property="og:updated_time" content="2019-01-30T21:44:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nodejs和树莓派小车">
+<meta name="twitter:description" content="nodejs驱动树莓派">
+<meta name="twitter:image" content="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/sketch.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://rwnexus.site/2018/12/03/nodejs和树莓派小车/"/>
+
+
+
+
+
+  <title>Nodejs和树莓派小车 | recallwolf</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">recallwolf</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://rwnexus.site/blog/2018/12/03/nodejs和树莓派小车/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RecallWolf">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/26666985?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="recallwolf">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nodejs和树莓派小车</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-03T14:31:46+08:00">
+                2018-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/RaspberryPi/" itemprop="url" rel="index">
+                    <span itemprop="name">RaspberryPi</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  nodejs驱动树莓派
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简略的说一下树莓派小车的制作过程</p>
+<p>所需材料：  </p>
+<blockquote>
+<p> 1.树莓派3b+<br>  2.l298n电机驱动模块<br>  3.3.3v直流电机<br>  4.dht11温湿度传感器<br>  5.sg90舵机</p>
+</blockquote>
+<h4 id="基本接线图"><a href="#基本接线图" class="headerlink" title="基本接线图"></a>基本接线图</h4><img src="/blog/2018/12/03/nodejs和树莓派小车/sketch.jpg"> 
+<h4 id="小车代码"><a href="#小车代码" class="headerlink" title="小车代码"></a>小车代码</h4><p>一开始采用的是rpio库但是pwm的问题一直没解决<br>提了个issue <a href="https://github.com/jperkin/node-rpio/issues/80" target="_blank" rel="noopener">https://github.com/jperkin/node-rpio/issues/80</a></p>
+<p>之后采用了johnny-five库， raspi-io库。<br>由于JavaScript控制微秒级不精准所以采用了第三方库node-dht-sensor调用c++来控制传感器，之后通过websocket传递温湿度</p>
+<p>摄像头部分 用ffmpeg流传输到websocket转发到http上</p>
+<p>所需环境： </p>
+<blockquote>
+<p> 1.os: raspbian<br>  2.nodejs<br>  3.ffmpeg</p>
+</blockquote>
+<p>具体api文档：  </p>
+<blockquote>
+<p><a href="http://johnny-five.io/api/" target="_blank" rel="noopener">Johnny-Five</a><br><a href="https://github.com/nebrius/raspi-io" target="_blank" rel="noopener">raspi-io</a><br><a href="https://github.com/momenso/node-dht-sensor" target="_blank" rel="noopener">node-dht-sensor</a><br><a href="https://github.com/phoboslab/jsmpeg" target="_blank" rel="noopener">JSMpeg</a></p>
+</blockquote>
+<pre><code>var express = require(&apos;express&apos;);
+var app = express();
+var path = require(&apos;path&apos;);
+var http = require(&apos;http&apos;).Server(app);
+var five = require(&apos;johnny-five&apos;);
+var Raspi = require(&apos;raspi-io&apos;);
+var sensor = require(&apos;node-dht-sensor&apos;);
+var ws = require(&apos;socket.io&apos;)(http);
+
+app.use(express.static(path.join(__dirname, &apos;public&apos;)));
+
+var board = new five.Board({
+  io: new Raspi()
+});
+
+function dht11() {
+  return sensor.read(11, 26)
+}
+
+board.on(&apos;ready&apos;, () =&gt; {
+
+  var io23 = new five.Pin({pin:23,mode:4}); //pwm
+  var io0 = new five.Pin({pin:0,mode:1}); //board_11 left back
+  var io1 = new five.Pin({pin:1,mode:1}); //board_12 left push
+  var io2 = new five.Pin({pin:2,mode:1}); //board_13 right push
+  var io3 = new five.Pin({pin:3,mode:1}); //board_15 right back
+
+  var angle = 90;
+  var servo = new five.Servo({pin:23,startAt:angle});
+
+  function set_low(){
+    io0.low();
+    io1.low();
+    io2.low();
+    io3.low();
+  };
+
+  set_low(); //set default
+
+  ws.on(&apos;connection&apos;,function(socket) {
+    setInterval(() =&gt; {
+      ws.emit(&apos;sensor&apos;, dht11());
+    }, 15000);
+  });
+
+  app.get(&apos;/&apos;, function(req, res){
+    res.render(&apos;index&apos;);
+  });
+
+  app.post(&apos;/w&apos;, function(req, res){
+    res.send(&apos;w&apos;);
+    io2.high();
+    io1.high();
+  });
+
+  app.post(&apos;/ws&apos;, function(req, res){
+    console.log(&apos;done&apos;);
+    res.send(&apos;ws&apos;);
+    io2.high();
+    io1.high();
+    setTimeout(() =&gt; {
+      set_low();
+    }, 800);
+  });
+
+  app.post(&apos;/l&apos;, function(req, res){
+    res.send(&apos;l&apos;);
+    io0.high();
+    io2.high();
+  });
+
+  app.post(&apos;/ls&apos;, function(req, res){
+    res.send(&apos;ls&apos;);
+    io0.high();
+    io2.high();
+    setTimeout(() =&gt; {
+      set_low();
+    }, 600);
+  });
+
+  app.post(&apos;/r&apos;, function(req, res){
+    res.send(&apos;r&apos;);
+    io1.high();
+    io3.high();
+  });
+
+  app.post(&apos;/rs&apos;, function(req, res){
+    res.send(&apos;rs&apos;);
+    io1.high();
+    io3.high();
+    setTimeout(() =&gt; {
+      set_low();
+    }, 600);
+  });
+
+  app.post(&apos;/b&apos;, function(req, res){ 
+    res.send(&apos;b&apos;);
+    io0.high();
+    io3.high();
+  });
+
+  app.post(&apos;/bs&apos;, function(req, res){ 
+    res.send(&apos;bs&apos;);
+    io0.high();
+    io3.high();
+    setTimeout(() =&gt; {
+      set_low();
+    }, 800);
+  });
+
+  app.post(&apos;/stop&apos;, function(req, res){
+    res.send(&apos;stop&apos;);
+    set_low();
+  });
+
+  app.post(&apos;/cl&apos;, function(req, res){ 
+    res.send(&apos;cl&apos;);
+    if (angle &gt;= 0 &amp;&amp; angle &lt;= 180) {
+      angle = angle - 45;
+      servo.to(angle);
+    }
+  });
+
+  app.post(&apos;/cr&apos;, function(req, res){ 
+    res.send(&apos;cr&apos;);
+    if (angle &gt;= 0 &amp;&amp; angle &lt;= 180) {
+      angle = angle + 45;
+      servo.to(angle);
+    }
+  });
+
+  app.post(&apos;/creset&apos;, function(req, res){ 
+    res.send(&apos;creset&apos;);
+    angle = 90;
+    servo.to(angle);
+  });
+});
+
+http.listen(3000, function(){
+  console.log(&apos;listening on *:3000&apos;);
+});
+</code></pre><p>可以把这些功能封装成一个对象 可能可读性更高</p>
+<p>同时要启动ffmpeg和ws服务器</p>
+<p>前端显示：<br><img src="/blog/2018/12/03/nodejs和树莓派小车/index.png"> </p>
+<h4 id="语音控制代码"><a href="#语音控制代码" class="headerlink" title="语音控制代码"></a>语音控制代码</h4><img src="/blog/2018/12/03/nodejs和树莓派小车/pi0.jpg"> 
+<p>之前用了respeaker的2mic的麦克风阵列 原来的的树莓派3b，没有足够的io接口，所以用raspberrypi zero来做语音终端向3b发送控制指令。</p>
+<p>所需环境</p>
+<blockquote>
+<p> 1.os: raspbian<br>  2.nodejs<br>  3.arecord</p>
+</blockquote>
+<p>文档：  </p>
+<blockquote>
+<p><a href="http://wiki.seeedstudio.com/cn/ReSpeaker_2_Mics_Pi_HAT/#2" target="_blank" rel="noopener">respeaker文档</a></p>
+</blockquote>
+<p>大致流程：<br><strong>安装好respeaker驱动(respeaker文档) =&gt; arecord录音 =&gt; 调用百度语音识别api，上传百度服务器 =&gt; 拿到识别结果 向3b上的http服务器发送消息</strong></p>
+<pre><code>var fs = require (&apos;fs&apos;);
+var exec = require(&apos;child_process&apos;).exec; 
+var axios = require(&apos;axios&apos;);
+
+function get_token() {
+  var url = &apos;https://aip.baidubce.com/oauth/2.0/token?&apos;
+  return axios.get(url, {
+    params: {
+      grant_type: &apos;client_credentials&apos;,
+      client_id: &apos;Your ID&apos;,
+      client_secret: &apos;Your Secret&apos;
+    }
+  }).then((response) =&gt; {
+    return Promise.resolve(response.data.access_token)
+  })
+  .catch((error) =&gt; {
+    console.log(error);
+  });
+}
+
+function get_text(token, data) {
+  var data = fs.readFileSync(&apos;demo.pcm&apos;);
+  return axios({
+    url: `http://vop.baidu.com/server_api?cuid=1E-30-7E-09-21-FD&amp;token=${token}`,
+    method: &apos;post&apos;,
+    data: data,
+    headers: {
+      &apos;Content-Type&apos;: &apos;audio/pcm;rate=16000&apos;
+    }
+  }).then(function(response) {
+    console.log(response.data)
+    return Promise.resolve(response.data.result[0]);
+  }).catch(function (error) {
+    console.log(error);
+  });
+}
+
+function forward() {
+  axios.post(&apos;http://192.168.1.xx:3000/ws&apos;, {});
+}
+
+function back() {
+  axios.post(&apos;http://192.168.1.xx:3000/bs&apos;, {});
+}
+
+function left() {
+  axios.post(&apos;http://192.168.1.xx:3000/ls&apos;, {});
+}
+
+function right() {
+  axios.post(&apos;http://192.168.1.xx:3000/rs&apos;, {});
+}
+
+function record() {
+  var cmdStr = &apos;arecord -d 3 -c 1 -f cd -r 8000 -Dhw:1 /home/voice/demo.pcm&apos;;
+  console.log(&apos;----------------begin recording----------------&apos;);
+  return new Promise((resolve,reject) =&gt; {
+    exec(cmdStr, function(err, stdout, stderr) {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve();
+        console.log(&apos;----------------end recording------------------&apos;);
+      }
+    });
+  });
+}
+
+setInterval(() =&gt; {
+  record()
+  .then(get_token)
+  .then(get_text)
+  .then(function(text) {
+    console.log(text);
+    if(text === &apos;前进，&apos;) {
+      forward();
+    }
+    else if(text === &apos;后退，&apos;) {
+      back();
+    }
+    else if(text === &apos;左转，&apos;) {
+      left();
+    }
+    else if(text === &apos;右转，&apos;) {
+      right();
+    }
+  });
+}, 4500);
+</code></pre><p>终端如图：<br><img src="/blog/2018/12/03/nodejs和树莓派小车/terminal.png">  </p>
+<img src="/blog/2018/12/03/nodejs和树莓派小车/car.jpg"> 
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/RaspberryPi/" rel="tag"># RaspberryPi</a>
+          
+            <a href="/blog/tags/Nodejs/" rel="tag"># Nodejs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/12/01/js中异步，同步，回调函数和Promise/" rel="next" title="JS中异步，同步，回调函数和Promise">
+                <i class="fa fa-chevron-left"></i> JS中异步，同步，回调函数和Promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2018/12/07/js闭包/" rel="prev" title="JS闭包">
+                JS闭包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/26666985?s=460&v=4"
+                alt="RecallWolf" />
+            
+              <p class="site-author-name" itemprop="name">RecallWolf</p>
+              <p class="site-description motion-element" itemprop="description">爱我所爱，行我所行，听从我心，无问西东。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/recallwolf" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/1634414781/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/you-ya-de-feng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本接线图"><span class="nav-number">1.</span> <span class="nav-text">基本接线图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小车代码"><span class="nav-number">2.</span> <span class="nav-text">小车代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语音控制代码"><span class="nav-number">3.</span> <span class="nav-text">语音控制代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RecallWolf</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
